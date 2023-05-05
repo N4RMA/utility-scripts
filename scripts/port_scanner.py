@@ -33,18 +33,23 @@ def log_open_ports(ip, start_port, end_port):
     logging.info(f"Open ports on {ip}: {', '.join(map(str, open_ports))}")
 
 if __name__ == "__main__":
-    if len(sys.argv) > 3:
-        try:
-            ip = sys.argv[1]
-            start_port = int(sys.argv[2])
-            end_port = int(sys.argv[3])
-        except ValueError:
-            print("Invalid IP or port range. Exiting.")
+    try:
+        if len(sys.argv) > 3:
+            try:
+                ip = sys.argv[1]
+                start_port = int(sys.argv[2])
+                end_port = int(sys.argv[3])
+            except ValueError:
+                print("Invalid IP or port range. Exiting.")
+                sys.exit(1)
+        else:
+            print("Usage: ./port_scanner.py <IP> <start_port> <end_port>")
             sys.exit(1)
-    else:
-        print("Usage: ./port_scanner.py <IP> <start_port> <end_port>")
-        sys.exit(1)
 
-    print(f"Scanning {ip} for open ports between {start_port} and {end_port}.")
-    log_open_ports(ip, start_port, end_port)
-    print("Scan completed. Open ports logged in open_ports.log.")
+        print(f"Scanning {ip} for open ports between {start_port} and {end_port}.")
+        log_open_ports(ip, start_port, end_port)
+        print("Scan completed. Open ports logged in open_ports.log.")
+    
+    except KeyboardInterrupt:
+        print("\nExiting script...")
+        sys.exit(0)
